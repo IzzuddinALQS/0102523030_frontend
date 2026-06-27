@@ -1,0 +1,27 @@
+# Dependency folders (Ini yang paling penting)
+node_modules/
+jspm_packages/
+
+# Build outputs (Folder hasil compile/build)
+dist/
+build/
+.next/
+.nuxt/
+
+# Logs (File catatan error)
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables (File rahasia seperti API key, password DB)
+.env
+.env.local
+.env.production
+
+# IDE / Editor (Konfigurasi editor text kamu)
+.vscode/
+.idea/
+*.suo
+*.ntvs*
