@@ -6,12 +6,13 @@ import {
   deleteMahasiswa,
 } from "../controllers/mahasiswa.controller";
 import { uploadFotoMahasiswa } from "../middlewares/upload.middleware";
+import { authMiddleware } from "../middlewares/auth.middleware";
  
 const router = Router();
  
-router.get("/", getAllMahasiswa);
-router.post("/", uploadFotoMahasiswa.single("foto"), createMahasiswa);
-router.put("/:id", uploadFotoMahasiswa.single("foto"), updateMahasiswa);
-router.delete("/:id", deleteMahasiswa);
+router.get("/", authMiddleware, getAllMahasiswa);
+router.post("/", authMiddleware, uploadFotoMahasiswa.single("foto"), createMahasiswa);
+router.put("/:id", authMiddleware, uploadFotoMahasiswa.single("foto"), updateMahasiswa);
+router.delete("/:id", authMiddleware, deleteMahasiswa);
  
 export default router;
