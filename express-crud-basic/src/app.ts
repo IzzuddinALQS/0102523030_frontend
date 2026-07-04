@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import mahasiswaRoutes from "./routes/mahasiswa.route";
 import prodiRoutes from "./routes/prodi.route";
+import authRoutes from "./routes/auth.route";
 import mahasiswaDbRoutes from "./routes/mahasiswa-db.route";
 import path from "path";
 
@@ -52,6 +53,7 @@ app.get("/about", (req: Request, res: Response) => {
 
 // Route CRUD array (Pertemuan 2)
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+app.use("/api/auth", authRoutes);
 app.use("/api/prodi", prodiRoutes);
 app.use("/api/mahasiswa", mahasiswaRoutes);
 
