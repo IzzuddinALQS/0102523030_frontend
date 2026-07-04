@@ -13,7 +13,7 @@ import {
   Prodi,
   updateMahasiswa,
 } from "@/lib/api";
-import { logout } from "@/lib/auth";
+import { logout, getUser } from "@/lib/auth";
 
 export default function MahasiswaPage() {
   const [mahasiswa, setMahasiswa] = useState<Mahasiswa[]>([]);
@@ -30,6 +30,9 @@ export default function MahasiswaPage() {
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
   const [totalPage, setTotalPage] = useState(1);
+  
+  // User Role
+  const [role, setRole] = useState<string>("");
 
   const loadProdi = async () => {
     try {
@@ -60,6 +63,10 @@ export default function MahasiswaPage() {
   };
 
   useEffect(() => {
+    const user = getUser();
+    if (user) {
+      setRole(user.role);
+    }
     loadProdi();
   }, []);
 
@@ -108,6 +115,10 @@ export default function MahasiswaPage() {
     }
   };
 
+  const canCreate = role === "admin" || role === "operator";
+  const canEdit = role === "admin" || role === "operator";
+  const canDelete = role === "admin";
+
   return (
     <main className="container">
       <div className="header">
@@ -127,12 +138,14 @@ export default function MahasiswaPage() {
       {message && <div className="message">{message}</div>}
       {error && <div className="message error">{error}</div>}
 
-      <MahasiswaForm
-        selectedMahasiswa={selectedMahasiswa}
-        prodiList={prodiList}
-        onSubmit={handleSubmit}
-        onCancelEdit={() => setSelectedMahasiswa(null)}
-      />
+      {canCreate && (
+        <MahasiswaForm
+          selectedMahasiswa={selectedMahasiswa}
+          prodiList={prodiList}
+          onSubmit={handleSubmit}
+          onCancelEdit={() => setSelectedMahasiswa(null)}
+        />
+      )}
 
       <section className="card" style={{ marginTop: 20 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 15 }}>
@@ -169,6 +182,8 @@ export default function MahasiswaPage() {
               mahasiswa={mahasiswa}
               onEdit={setSelectedMahasiswa}
               onDelete={handleDelete}
+              canEdit={canEdit}
+              canDelete={canDelete}
             />
             
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 20 }}>
