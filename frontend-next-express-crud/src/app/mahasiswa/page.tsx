@@ -13,6 +13,7 @@ import {
   Prodi,
   updateMahasiswa,
 } from "@/lib/api";
+import { logout } from "@/lib/auth";
 
 export default function MahasiswaPage() {
   const [mahasiswa, setMahasiswa] = useState<Mahasiswa[]>([]);
@@ -115,9 +116,12 @@ export default function MahasiswaPage() {
           <p>Frontend Next.js yang terhubung ke backend Express.js.</p>
         </div>
 
-        <Link href="/">
-          <button className="btn-secondary">Kembali</button>
-        </Link>
+        <div>
+          <Link href="/">
+            <button className="btn-secondary" style={{ marginRight: 10 }}>Kembali</button>
+          </Link>
+          <button className="btn-danger" onClick={logout}>Logout</button>
+        </div>
       </div>
 
       {message && <div className="message">{message}</div>}
