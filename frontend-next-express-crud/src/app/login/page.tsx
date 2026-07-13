@@ -65,6 +65,12 @@ export default function LoginPage() {
         <button type="submit" className="btn-primary" style={{ width: "100%", marginTop: 10 }}>
           Login
         </button>
+
+        <div style={{ marginTop: "15px", textAlign: "center" }}>
+          <Link href="/forgot-password" style={{ color: "#0070f3", textDecoration: "none" }}>
+            Lupa Password?
+          </Link>
+        </div>
       </form>
     </main>
   );

@@ -181,3 +181,25 @@ export async function resetPassword(id: number) {
   if (!response.ok) throw new Error(result.message);
   return result;
 }
+
+export async function forgotPassword(email: string) {
+  const response = await fetch(`${API_URL}/auth/forgot-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message);
+  return result;
+}
+
+export async function resetPasswordWithToken(token: string, newPassword: string) {
+  const response = await fetch(`${API_URL}/auth/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, newPassword }),
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message);
+  return result;
+}
