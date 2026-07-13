@@ -128,6 +128,11 @@ export default function MahasiswaPage() {
         </div>
 
         <div>
+          {role === "admin" && (
+            <Link href="/users">
+              <button className="btn-secondary" style={{ marginRight: 10 }}>Manajemen User</button>
+            </Link>
+          )}
           <Link href="/">
             <button className="btn-secondary" style={{ marginRight: 10 }}>Kembali</button>
           </Link>

@@ -16,7 +16,14 @@ export type Mahasiswa = {
   nama_prodi: string;
   angkatan: number;
   foto?: string | null;
-  created_at?: string;
+};
+
+export type User = {
+  id: number;
+  name: string;
+  email: string;
+  role: "admin" | "operator" | "viewer";
+  created_at: string;
 };
 
 export type MahasiswaResponse = {
@@ -113,6 +120,63 @@ export async function deleteMahasiswa(id: number) {
     headers: getAuthHeaders(),
   });
  
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message);
+  return result;
+}
+
+export async function getUsers(): Promise<User[]> {
+  const response = await fetch(`${API_URL}/users`, {
+    cache: "no-store",
+    headers: getAuthHeaders(),
+  });
+  const result = await response.json();
+  if (!response.ok) {
+    if (response.status === 401 || response.status === 403) {
+      window.location.href = "/login";
+    }
+    throw new Error(result.message);
+  }
+  return result.data || [];
+}
+
+export async function createUser(data: Partial<User>) {
+  const response = await fetch(`${API_URL}/users`, {
+    method: "POST",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(data),
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message);
+  return result;
+}
+
+export async function updateUser(id: number, data: Partial<User>) {
+  const response = await fetch(`${API_URL}/users/${id}`, {
+    method: "PUT",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(data),
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message);
+  return result;
+}
+
+export async function deleteUser(id: number) {
+  const response = await fetch(`${API_URL}/users/${id}`, {
+    method: "DELETE",
+    headers: getAuthHeaders(),
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message);
+  return result;
+}
+
+export async function resetPassword(id: number) {
+  const response = await fetch(`${API_URL}/users/${id}/reset-password`, {
+    method: "PATCH",
+    headers: getAuthHeaders(),
+  });
   const result = await response.json();
   if (!response.ok) throw new Error(result.message);
   return result;
